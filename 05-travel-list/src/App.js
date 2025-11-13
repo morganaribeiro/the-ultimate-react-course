@@ -29,7 +29,7 @@ export default function App() {
         onDeleteItem={handleDeleteItem} 
         onToggleItem={handleToggleItem} 
       />
-      <Stats />
+      <Stats items={items} />
     </div>
   );
 }
@@ -105,11 +105,16 @@ function Item({ item, onDeleteItem , onToggleItem }) {
   );
 }
 
-function Stats() {
+function Stats({ items }) {
+  const numItems = items.length;
+  const numPacked = items.filter((item) => item.packed).length;
+  const percentage = Math.round(numPacked / numItems * 100); // Porcentagem de items embalados.
+
   return (
     <footer className="stats">
-      <em>🧳 Você tem X itens na sua lista, você já embalou X (X%)</em>
-  </footer>
+      <em>🧳 Você tem {numItems} itens na sua lista, você já embalou{" "}
+      {numPacked} ({percentage}%)</em>
+    </footer>
   );
 }
 
