@@ -106,14 +106,24 @@ function Item({ item, onDeleteItem , onToggleItem }) {
 }
 
 function Stats({ items }) {
+  if(!items.length) return (
+    <p className="stats">
+      <em>Comece a adicionar alguns itens à sua lista de bagagem 🚀</em>
+    </p>
+  );
+
   const numItems = items.length;
   const numPacked = items.filter((item) => item.packed).length;
   const percentage = Math.round(numPacked / numItems * 100); // Porcentagem de items embalados.
 
   return (
     <footer className="stats">
-      <em>🧳 Você tem {numItems} itens na sua lista, você já embalou{" "}
-      {numPacked} ({percentage}%)</em>
+      <em>
+      {percentage === 100 
+        ? "Você tem tudo! Pronto para ir ✈" 
+        : ` 🧳 Você tem ${numItems} itens na sua lista, você já embalou
+        ${numPacked} (${percentage}%)` }
+      </em>
     </footer>
   );
 }
