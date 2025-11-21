@@ -82,13 +82,28 @@ function Form({ onAddItems }) {
 }
 
 function PackingList({ items, onDeleteItem, onToggleItem }) {
+  const [sortBy, setSortBy] = useState("input");
+
+  let sortedItems;
+
+  if(sortBy === "input") sortedItems = items;
+  if(sortBy === "description") sortedItems = items.slice().sort((a, b) => a.description.localeCompare(b.description)); // Slide cria uma cópia do array, cria uma nova referência em memória
+  if(sortBy === "packed") sortedItems = items.slice().sort((a, b) => Number(a.packed) - Number(b.packed));
+
   return (
     <div className="list">
       <ul>
-      {items.map((item) => (
+      {sortedItems.map((item) => (
         <Item item={item} key={item.id} onDeleteItem={onDeleteItem} onToggleItem={onToggleItem} />
       ))}
       </ul>
+      <div className="actions">
+        <select value={sortBy} onChange={e => setSortBy(e.target.value)}>
+          <option value="input">Ordenar pela ordem de entrada</option>
+          <option value="description">Ordenar por descrição</option>
+          <option value="packed">Ordenar por status da embalagem</option>
+        </select>
+      </div>
     </div>
   );
 }
